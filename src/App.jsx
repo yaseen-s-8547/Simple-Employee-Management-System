@@ -35,7 +35,7 @@ function App() {
 
     <div className="container-fluid mt-5">
       <div className="row">
-        <EmployeeList  empDet={empDet}/>
+        <EmployeeList  empDet={empDet} setEmpDet={setEmpDet}/>
       </div>
     </div>
     </>
