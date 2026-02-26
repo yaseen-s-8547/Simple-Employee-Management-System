@@ -7,9 +7,11 @@ export default function EmployeeList({ empDet, setEmpDet }) {
     const [activeFeild, setActiveFeild] = useState(null)
     const [newName, setnewName] = useState('')
     const [newRole, setNewRole] = useState('')
-    const [newSal,setNewSal]=useState('')
-    const [newMail,setNewMail]=useState('')
-    const [newPhone,setNewPhone]=useState('')
+    const [newSal, setNewSal] = useState('')
+    const [newMail, setNewMail] = useState('')
+    const [newPhone, setNewPhone] = useState('')
+    const [editingEmployee, setEditingEmployee] = useState(null)
+    const [formData,setFormData]=useState({})
 
 
     const handleAddName = (id) => {
@@ -36,8 +38,8 @@ export default function EmployeeList({ empDet, setEmpDet }) {
         const empid = id
         axios.patch(`http://localhost:5000/employees/${empid}`, { role: newRole })
             .then((response) => {
-                setEmpDet(prev => prev.map(e=>e.id===response.data.id?response.data:e))
-                
+                setEmpDet(prev => prev.map(e => e.id === response.data.id ? response.data : e))
+
             })
         setNewRole("")
         setActiveFeild(null)
@@ -49,12 +51,12 @@ export default function EmployeeList({ empDet, setEmpDet }) {
         setActiveFeild({ id: id, feild: "salary" })
     }
     const handleSaveSal = (id) => {
-         axios.patch(`http://localhost:5000/employees/${id}`,{salary:newSal})
-         .then((response)=>{
-            
-            setEmpDet(prev=>prev.map((s=>s.id===response.data.id?response.data:s)))
-         })
-         setNewSal("")
+        axios.patch(`http://localhost:5000/employees/${id}`, { salary: newSal })
+            .then((response) => {
+
+                setEmpDet(prev => prev.map((s => s.id === response.data.id ? response.data : s)))
+            })
+        setNewSal("")
         setActiveFeild(null)
     }
     const handleCancelSal = () => {
@@ -63,12 +65,11 @@ export default function EmployeeList({ empDet, setEmpDet }) {
     const handleAddGmail = (id) => {
         setActiveFeild({ id: id, feild: "mail" })
     }
-
     const handleSaveGmail = (id) => {
-        axios.patch(`http://localhost:5000/employees/${id}`,{gmail:newMail})
-        .then((res)=>{
-            setEmpDet(prev=>prev.map((m=>m.id===res.data.id?res.data:m)))
-        })
+        axios.patch(`http://localhost:5000/employees/${id}`, { gmail: newMail })
+            .then((res) => {
+                setEmpDet(prev => prev.map((m => m.id === res.data.id ? res.data : m)))
+            })
         setNewMail("")
         setActiveFeild(null)
     }
@@ -76,14 +77,14 @@ export default function EmployeeList({ empDet, setEmpDet }) {
         setActiveFeild(null)
     }
     const handleAddCont = (id) => {
-        
+
         setActiveFeild({ id: id, feild: "phone" })
     }
     const handleSaveCont = (id) => {
-        axios.patch(`http://localhost:5000/employees/${id}`,{phone:newPhone})
-        .the((response)=>{
-            setEmpDet(prev=>prev.map(p=>p.id===response.data.id?response.data:p))
-        })
+        axios.patch(`http://localhost:5000/employees/${id}`, { phone: newPhone })
+            .then((response) => {
+                setEmpDet(prev => prev.map(p => p.id === response.data.id ? response.data : p))
+            })
         setNewPhone("")
         setActiveFeild(null)
     }
@@ -91,6 +92,23 @@ export default function EmployeeList({ empDet, setEmpDet }) {
         setActiveFeild(null)
     }
     const draftId = "new"
+     const handleUpdate = (emp) => {
+        setEditingEmployee(emp)
+        setFormData(emp)
+    }
+    const handleEditSave=()=>{
+        axios.patch(`http://localhost:5000/employees/${editingEmployee.id}`,formData)
+        .then((response)=>{
+            setEmpDet(prev=>prev.map(ed=>ed.id===response.data.id?response.data:ed))
+        })
+        setEditingEmployee(null) }
+
+    const handleDelete=(id)=>{
+        axios.delete(`http://localhost:5000/employees/${id}`)
+        .then((response)=>{
+            setEmpDet(prev=>prev.filter(d=>d.id!==response.data.id))
+        })
+    }
     return (
         <>
             <div className="col-md-1"></div>
@@ -113,41 +131,73 @@ export default function EmployeeList({ empDet, setEmpDet }) {
                         {empDet.map(item => (
                             <tr key={item.id}>
                                 <th scope="row">{item.id}</th>
-                                <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name"&&activeFeild.id===item.id ? (<>
+                                <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name" && activeFeild.id === item.id ? (<>
                                     <input value={newName} className="input form-sontrol form-control-sm" onChange={(e) => { setnewName(e.target.value) }} />
-                                    <button className="btn btn-primary btn-sm" onClick={()=>{handleSaveName(item.id)}}>save</button>
+                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveName(item.id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelName}>cancel</button></>)
                                     :
-                                    (<><button className="btn btn-sm btn-primary" onClick={()=>{handleAddName(item.id)}}>Add</button></>)}</>)}</td>
+                                    (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(item.id) }}>Add</button></>)}</>)}</td>
                                 <td>{item.role ? (<>{item.role}</>) : (<> {activeFeild?.feild === "role" && activeFeild.id == item.id ? (<>
                                     <input value={newRole} className="input form-sontrol form-control-sm" onChange={(e) => { setNewRole(e.target.value) }} />
                                     <button className="btn btn-primary btn-sm" onClick={() => { handleSaveRole(item.id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelRole}>cancel</button></>)
                                     :
-                                    (<><button className="btn btn-sm btn-primary"   disabled={!item.name} onClick={() => { handleAddRole(item.id) }}>Add</button></>)}</>)}</td>
+                                    (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddRole(item.id) }}>Add</button></>)}</>)}</td>
                                 <td>{item.salary ? (<>{item.salary}</>) : (<>{activeFeild?.feild === "salary" && activeFeild.id === item.id ? (<>
-                                    <input value={newSal} onChange={(e)=>{setNewSal(e.target.value)}} className="input form-sontrol form-control-sm" />
+                                    <input value={newSal} onChange={(e) => { setNewSal(e.target.value) }} className="input form-sontrol form-control-sm" />
                                     <button className="btn btn-primary btn-sm" onClick={() => { handleSaveSal(item.id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelSal}>cancel</button>
-                                </>) : (<><button className="btn btn-sm btn-primary"  disabled={!item.name}  onClick={() => { handleAddSal(item.id) }}>Add</button></>)}</>)}</td>
+                                </>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddSal(item.id) }}>Add</button></>)}</>)}</td>
                                 <td >
-                                    {item.gmail ? (<>{item.gmail}</>) : (<> {activeFeild?.feild === "mail" && activeFeild.id === item.id ? 
-                                    (<> <input value={newMail} onChange={(e)=>{setNewMail(e.target.value)}}    className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm " onClick={() => { handleSaveGmail(item.id) }}>save</button>
-                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelGmail}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name}   onClick={() => { handleAddGmail(item.id) }}>Add</button></>)}</>)}
+                                    {item.gmail ? (<>{item.gmail}</>) : (<> {activeFeild?.feild === "mail" && activeFeild.id === item.id ?
+                                        (<> <input value={newMail} onChange={(e) => { setNewMail(e.target.value) }} className="input form-sontrol form-control-sm" />
+                                            <button className="btn btn-primary btn-sm " onClick={() => { handleSaveGmail(item.id) }}>save</button>
+                                            <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelGmail}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddGmail(item.id) }}>Add</button></>)}</>)}
 
                                 </td>
                                 <td>
                                     {item.phone ? (<>{item.phone}</>) : (<>{activeFeild?.feild === "phone" && activeFeild.id === item.id ? (<>
-                                        <input value={newPhone} onChange={(e)=>{setNewPhone(e.target.value)}} className="input form-sontrol form-control-sm" />
+                                        <input value={newPhone} onChange={(e) => { setNewPhone(e.target.value) }} className="input form-sontrol form-control-sm" />
                                         <button className="btn btn-primary btn-sm" onClick={() => { handleSaveCont(item.id) }}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button disabled={!item.name} className="btn btn-sm btn-primary" onClick={() => { handleAddCont(item.id) }}>Add</button></>)} </>)}
                                 </td>
                                 <td className="">
-                                    <button className="btn btn-primary">Update</button>
-                                    <button className="btn btn-primary  ms-2">delete</button>
+                                    <button className="btn btn-primary"
+                                    onClick={() => { handleUpdate(item) }}>Update</button>
+                                    <button className="btn btn-primary  ms-2"onClick={()=>{handleDelete(item.id)}}>delete</button>
                                 </td>
                             </tr>
                         ))}
+
+                        {editingEmployee && (<>
+
+
+
+
+                            <div className="modal d-block" tabIndex="-1" >
+                                <div class="modal-dialog">
+                                    <div class="modal-content ">
+                                        <div class="modal-header bg-primary">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">editing</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex flex-column gap-3">
+                                            <input value={formData.name} onChange={(e)=>{setFormData(prev=>({...prev,name:e.target.value}))}} placeholder="name" className="form-control" />
+                                            <input value={formData.role} onChange={(e)=>{setFormData(prev=>({...prev,role:e.target.value}))}}placeholder="role" className="form-control" />
+                                            <input value={formData.salary}onChange={(e)=>{setFormData(prev=>({...prev,salary:e.target.value}))}} placeholder="salary" className="form-control" />
+                                            <input value={formData.gmail}onChange={(e)=>setFormData(prev=>({...prev,gmail:e.target.value}))} placeholder="gmail" className="form-control" />
+                                            <input value={formData.phone}onChange={(e)=>setFormData(prev=>({...prev,phone:e.target.value}))} placeholder="contact" className="form-control" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onClick={()=>{setEditingEmployee(null)}} >Close</button>
+                                            <button type="button" onClick={handleEditSave} class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </>)}
+
                         <>
                             <tr >
                                 <th>...</th>
@@ -173,7 +223,7 @@ export default function EmployeeList({ empDet, setEmpDet }) {
                                         <input className="input form-sontrol form-control-sm" />
                                         <button className="btn btn-primary btn-sm" onClick={handleSaveSal}>save</button>
                                         <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelSal}>cancel</button>
-                                    </>) : (<><button  className="btn btn-sm btn-primary" onClick={() => { handleAddSal(draftId) }}>Add</button></>)}
+                                    </>) : (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddSal(draftId) }}>Add</button></>)}
                                 </td>
                                 <td className="d-flex">
                                     {activeFeild?.feild === "mail" && activeFeild.id === draftId ? (<> <input className="input form-sontrol form-control-sm" />
@@ -183,7 +233,7 @@ export default function EmployeeList({ empDet, setEmpDet }) {
                                 <td>
                                     {activeFeild?.feild === "phone" && activeFeild.id === draftId ? (<>
                                         <input className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm" onClick={handleSaveCont}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button  className="btn btn-sm btn-primary" onClick={() => { handleAddCont(draftId) }}>Add</button></>)}
+                                        <button className="btn btn-primary btn-sm" onClick={handleSaveCont}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddCont(draftId) }}>Add</button></>)}
                                 </td>
 
                             </tr>
