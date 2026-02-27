@@ -24,13 +24,13 @@ export default function Input({typingSearch,setTypingSearch,setSearching,setEmpD
 
     return(
         <>
-      <div className="col-md-3"></div>
-      <div className="col-md-6 d-flex ">
+      <div className="col-3"></div>
+      <div className="col-6 d-flex ">
        <input value={typingSearch} onChange={(e)=>{setTypingSearch(e.target.value)}} placeholder="none" className="form-control rounded-0"/>
-        <button onClick={handleApplliedSearch}className="btn btn-primary rounded-0">Search</button><button className="btn btn-primary" onClick={handleClear}>Clear</button>
+        <button onClick={handleApplliedSearch}className="btn btn-primary rounded-0">Search</button><button className="btn btn-primary rounded-0" onClick={handleClear}>Clear</button>
         
       </div>
-      <div className="col-md-3"></div>
+      <div className="col-3"></div>
         </>
     )
 }

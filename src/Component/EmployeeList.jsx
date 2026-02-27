@@ -111,9 +111,10 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
     }
     return (
         <>
-            <div className="col-md-1"></div>
-            <div className="col-md-10 shadow py-5 rounded ">
-                <table className="table table-hover  ">
+            <div className="col-1"></div>
+            <div className="col-10   col-xl-9  mx-auto shadow p-3 p-md-4 rounded">
+                <div className="table-responsive">
+                    <table className="table table-hover ">
                     <thead>
                         <tr>
                             <th scope="col">id</th>
@@ -161,9 +162,11 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
                                         <button className="btn btn-primary btn-sm" onClick={() => { handleSaveCont(item.id) }}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button disabled={!item.name} className="btn btn-sm btn-primary" onClick={() => { handleAddCont(item.id) }}>Add</button></>)} </>)}
                                 </td>
                                 <td className="">
-                                    <button className="btn btn-primary"
+                                   <div className="d-flex flex-md-row flex-column gap-3 ">
+                                     <button className="btn btn-primary"
                                     onClick={() => { handleUpdate(item) }}>Update</button>
                                     <button className="btn btn-primary  ms-2"onClick={()=>{handleDelete(item.id)}}>delete</button>
+                                   </div>
                                 </td>
                             </tr>
                         ))}
@@ -177,10 +180,10 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
                                 <div className="modal-dialog">
                                     <div className="modal-content ">
                                         <div className="modal-header bg-primary">
-                                            <h1 className="modal-title fs-5" id="exampleModalLabel">editing</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h1 className="modal-title fs-5" id="exampleModalLabel">Editing</h1>
+                                            
                                         </div>
-                                        <div class="modal-body d-flex flex-column gap-3">
+                                        <div className="modal-body d-flex flex-column gap-3">
                                             <input value={formData.name} onChange={(e)=>{setFormData(prev=>({...prev,name:e.target.value}))}} placeholder="name" className="form-control" />
                                             <input value={formData.role} onChange={(e)=>{setFormData(prev=>({...prev,role:e.target.value}))}}placeholder="role" className="form-control" />
                                             <input value={formData.salary}onChange={(e)=>{setFormData(prev=>({...prev,salary:e.target.value}))}} placeholder="salary" className="form-control" />
@@ -202,10 +205,11 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
                             <tr >
                                 <th>...</th>
                                 <td>
-                                  {!searching &&(<>  {activeFeild?.feild === "name" && activeFeild.id === draftId? (<>
+                                  {!searching &&(<>  {activeFeild?.feild === "name" && activeFeild.id === draftId? (
+                                    <div className="d-flex flex-column flex-sm-row gap-2">
                                         <input value={newName} className="input form-sontrol form-control-sm" onChange={(e) => { setnewName(e.target.value) }} />
                                         <button className="btn btn-primary btn-sm" onClick={handleSaveName}>save</button>
-                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelName}>cancel</button></>)
+                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelName}>cancel</button></div>)
 
                                         :
                                         (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(draftId) }}>Add</button></>)}</>)}
@@ -219,9 +223,10 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
                         </>
                     </tbody>
                 </table>
+                </div>
 
             </div>
-            <div className="col-md-1"></div>
+            <div className="col-1"></div>
         </>
     )
 }
