@@ -3,7 +3,7 @@ import { useState } from "react"
 import axios from "axios"
 
 
-export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching}) {
+export default function EmployeeList({ empDet, setEmpDet,searching}) {
     const [activeFeild, setActiveFeild] = useState(null)
     const [newName, setnewName] = useState('')
     const [newRole, setNewRole] = useState('')
@@ -13,7 +13,6 @@ export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching
     const [editingEmployee, setEditingEmployee] = useState(null)
     const [formData,setFormData]=useState({})
 
-    const filteredEmpDet=empDet.filter(empd=>empd.name?.toLowerCase().includes(appliedSearch.toLowerCase())||empd.id?.toString().includes(appliedSearch))
 
     const handleAddName = (id) => {
 
@@ -106,8 +105,8 @@ export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching
 
     const handleDelete=(id)=>{
         axios.delete(`http://localhost:5000/employees/${id}`)
-        .then((response)=>{
-            setEmpDet(prev=>prev.filter(d=>d.id!==response.data.id))
+        .then(()=>{
+            setEmpDet(prev=>prev.filter(d=>d.id!==id))
         })
     }
     return (
@@ -129,7 +128,7 @@ export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredEmpDet.map(item => (
+                        {empDet.map(item => (
                             <tr key={item.id}>
                                 <th scope="row">{item.id}</th>
                                 <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name" && activeFeild.id === item.id ? (<>
@@ -175,10 +174,10 @@ export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching
 
 
                             <div className="modal d-block" tabIndex="-1" >
-                                <div class="modal-dialog">
-                                    <div class="modal-content ">
-                                        <div class="modal-header bg-primary">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">editing</h1>
+                                <div className="modal-dialog">
+                                    <div className="modal-content ">
+                                        <div className="modal-header bg-primary">
+                                            <h1 className="modal-title fs-5" id="exampleModalLabel">editing</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body d-flex flex-column gap-3">
@@ -189,8 +188,8 @@ export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching
                                             <input value={formData.phone}onChange={(e)=>setFormData(prev=>({...prev,phone:e.target.value}))} placeholder="contact" className="form-control" />
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" onClick={()=>{setEditingEmployee(null)}} >Close</button>
-                                            <button type="button" onClick={handleEditSave} class="btn btn-primary">Save changes</button>
+                                            <button type="button" className="btn btn-secondary" onClick={()=>{setEditingEmployee(null)}} >Close</button>
+                                            <button type="button" onClick={handleEditSave} className="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
                                 </div>

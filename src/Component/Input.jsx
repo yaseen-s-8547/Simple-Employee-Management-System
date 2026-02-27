@@ -1,13 +1,23 @@
-export default function Input({typingSearch,setTypingSearch,setAppliedSearch,empDet,setSearching}){
+import axios from "axios"
+export default function Input({typingSearch,setTypingSearch,setSearching,setEmpDet}){
   const handleApplliedSearch =()=>{
-    setAppliedSearch(typingSearch)
-    setSearching(true)
+    axios.get(`http://localhost:5000/employees?search=${typingSearch}`)
+    .then((response)=>{
+      console.log(response.data)
+      setEmpDet(response.data)
+        setSearching(true)
+    })
+  
     
   }
   const handleClear=()=>{
-    setAppliedSearch("")
-    setTypingSearch("")
-    setSearching(false)
+    axios.get('http://localhost:5000/employees')
+    .then((response)=>{
+      setEmpDet(response.data)
+       setSearching(false)
+
+    })
+   
    
     
   }
@@ -16,8 +26,8 @@ export default function Input({typingSearch,setTypingSearch,setAppliedSearch,emp
         <>
       <div className="col-md-3"></div>
       <div className="col-md-6 d-flex ">
-       {empDet.length>0&&(<> <input value={typingSearch} onChange={(e)=>{setTypingSearch(e.target.value)}} placeholder="none" className="form-control rounded-0"/>
-        <button onClick={handleApplliedSearch}className="btn btn-primary rounded-0">Search</button><button className="btn btn-primary" onClick={handleClear}>Clear</button></>)}
+       <input value={typingSearch} onChange={(e)=>{setTypingSearch(e.target.value)}} placeholder="none" className="form-control rounded-0"/>
+        <button onClick={handleApplliedSearch}className="btn btn-primary rounded-0">Search</button><button className="btn btn-primary" onClick={handleClear}>Clear</button>
         
       </div>
       <div className="col-md-3"></div>

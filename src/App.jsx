@@ -17,9 +17,10 @@ function App() {
   useEffect(()=>{
     axios.get("http://localhost:5000/employees")
     .then((response)=>{
+       console.log("INITIAL FETCH:", response.data)
       setEmpDet(response.data)
     })
-  })
+  },[])
 
   
 
@@ -32,7 +33,7 @@ function App() {
     </div>
     <div className="container py-3">
       <div className="row">
-        <Input   empDet={empDet} typingSearch={typingSearch} setTypingSearch={setTypingSearch}  setSearching={setSearching}  setAppliedSearch={setAppliedSearch}/>
+        <Input   empDet={empDet} typingSearch={typingSearch} setTypingSearch={setTypingSearch}  setSearching={setSearching}  setAppliedSearch={setAppliedSearch} setEmpDet={setEmpDet}/>
       </div>
     </div>
 
