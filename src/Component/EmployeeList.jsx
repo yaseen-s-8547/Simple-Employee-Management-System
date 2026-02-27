@@ -3,7 +3,7 @@ import { useState } from "react"
 import axios from "axios"
 
 
-export default function EmployeeList({ empDet, setEmpDet }) {
+export default function EmployeeList({ empDet, setEmpDet,appliedSearch,searching}) {
     const [activeFeild, setActiveFeild] = useState(null)
     const [newName, setnewName] = useState('')
     const [newRole, setNewRole] = useState('')
@@ -13,6 +13,7 @@ export default function EmployeeList({ empDet, setEmpDet }) {
     const [editingEmployee, setEditingEmployee] = useState(null)
     const [formData,setFormData]=useState({})
 
+    const filteredEmpDet=empDet.filter(empd=>empd.name?.toLowerCase().includes(appliedSearch.toLowerCase())||empd.id?.toString().includes(appliedSearch))
 
     const handleAddName = (id) => {
 
@@ -128,7 +129,7 @@ export default function EmployeeList({ empDet, setEmpDet }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {empDet.map(item => (
+                        {filteredEmpDet.map(item => (
                             <tr key={item.id}>
                                 <th scope="row">{item.id}</th>
                                 <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name" && activeFeild.id === item.id ? (<>
@@ -202,39 +203,15 @@ export default function EmployeeList({ empDet, setEmpDet }) {
                             <tr >
                                 <th>...</th>
                                 <td>
-                                    {activeFeild?.feild === "name" && activeFeild.id === draftId ? (<>
+                                  {!searching &&(<>  {activeFeild?.feild === "name" && activeFeild.id === draftId? (<>
                                         <input value={newName} className="input form-sontrol form-control-sm" onChange={(e) => { setnewName(e.target.value) }} />
                                         <button className="btn btn-primary btn-sm" onClick={handleSaveName}>save</button>
                                         <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelName}>cancel</button></>)
 
                                         :
-                                        (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(draftId) }}>Add</button></>)}
+                                        (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(draftId) }}>Add</button></>)}</>)}
                                 </td>
-                                <td>
-                                    {activeFeild?.feild === "role" && activeFeild.id === draftId ? (<>
-                                        <input className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm" onClick={handleSaveRole}>save</button>
-                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelRole}>cancel</button></>)
-                                        :
-                                        (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddRole(draftId) }}>Add</button></>)}
-                                </td>
-                                <td>
-                                    {activeFeild?.feild === "salary" && activeFeild.id === draftId ? (<>
-                                        <input className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm" onClick={handleSaveSal}>save</button>
-                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelSal}>cancel</button>
-                                    </>) : (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddSal(draftId) }}>Add</button></>)}
-                                </td>
-                                <td className="d-flex">
-                                    {activeFeild?.feild === "mail" && activeFeild.id === draftId ? (<> <input className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm " onClick={handleSaveGmail}>save</button>
-                                        <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelGmail}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddGmail(draftId) }}>Add</button></>)}
-                                </td>
-                                <td>
-                                    {activeFeild?.feild === "phone" && activeFeild.id === draftId ? (<>
-                                        <input className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm" onClick={handleSaveCont}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddCont(draftId) }}>Add</button></>)}
-                                </td>
+
 
                             </tr>
 

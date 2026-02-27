@@ -8,7 +8,10 @@ import axios from "axios"
 
 function App() {
   const[empDet,setEmpDet]=useState([])
-
+  const[typingSearch,setTypingSearch]=useState("")
+  const[appliedSearch,setAppliedSearch]=useState("")
+  const [searching,setSearching]=useState(false)
+ 
   
    
   useEffect(()=>{
@@ -29,13 +32,13 @@ function App() {
     </div>
     <div className="container py-3">
       <div className="row">
-        <Input/>
+        <Input   empDet={empDet} typingSearch={typingSearch} setTypingSearch={setTypingSearch}  setSearching={setSearching}  setAppliedSearch={setAppliedSearch}/>
       </div>
     </div>
 
     <div className="container-fluid mt-5">
       <div className="row">
-        <EmployeeList  empDet={empDet} setEmpDet={setEmpDet}/>
+        <EmployeeList  empDet={empDet} setEmpDet={setEmpDet} appliedSearch={appliedSearch} searching={searching}/>
       </div>
     </div>
     </>
