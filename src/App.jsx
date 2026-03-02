@@ -15,7 +15,7 @@ function App() {
   
    
   useEffect(()=>{
-    axios.get("https://simple-employee-management-system-u5c1.onrender.com")
+    axios.get("https://simple-employee-management-system-u5c1.onrender.com/employees")
     .then((response)=>{
        console.log("INITIAL FETCH:", response.data)
       setEmpDet(response.data)
