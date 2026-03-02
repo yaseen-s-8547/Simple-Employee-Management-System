@@ -20,7 +20,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
 
     }
     const handleSaveName = () => {
-        axios.post("http://localhost:5000/employees", { name: newName })
+        axios.post("https://simple-employee-management-system-u5c1.onrender.com/employees", { name: newName })
             .then((response) => {
                 setEmpDet(prev => [...prev, response.data])
             })
@@ -36,7 +36,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
     }
     const handleSaveRole = (id) => {
         const empid = id
-        axios.patch(`http://localhost:5000/employees/${empid}`, { role: newRole })
+        axios.patch(`https://simple-employee-management-system-u5c1.onrender.com/employees/${empid}`, { role: newRole })
             .then((response) => {
                 setEmpDet(prev => prev.map(e => e.id === response.data.id ? response.data : e))
 
@@ -51,7 +51,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
         setActiveFeild({ id: id, feild: "salary" })
     }
     const handleSaveSal = (id) => {
-        axios.patch(`http://localhost:5000/employees/${id}`, { salary: newSal })
+        axios.patch(`https://simple-employee-management-system-u5c1.onrender.com/employees/${id}`, { salary: newSal })
             .then((response) => {
 
                 setEmpDet(prev => prev.map((s => s.id === response.data.id ? response.data : s)))
@@ -66,7 +66,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
         setActiveFeild({ id: id, feild: "mail" })
     }
     const handleSaveGmail = (id) => {
-        axios.patch(`http://localhost:5000/employees/${id}`, { gmail: newMail })
+        axios.patch(`https://simple-employee-management-system-u5c1.onrender.com/employees/${id}`, { gmail: newMail })
             .then((res) => {
                 setEmpDet(prev => prev.map((m => m.id === res.data.id ? res.data : m)))
             })
@@ -81,7 +81,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
         setActiveFeild({ id: id, feild: "phone" })
     }
     const handleSaveCont = (id) => {
-        axios.patch(`http://localhost:5000/employees/${id}`, { phone: newPhone })
+        axios.patch(`https://simple-employee-management-system-u5c1.onrender.com/employees/${id}`, { phone: newPhone })
             .then((response) => {
                 setEmpDet(prev => prev.map(p => p.id === response.data.id ? response.data : p))
             })
@@ -97,14 +97,14 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
         setFormData(emp)
     }
     const handleEditSave=()=>{
-        axios.patch(`http://localhost:5000/employees/${editingEmployee.id}`,formData)
+        axios.patch(`https://simple-employee-management-system-u5c1.onrender.com/employees/${editingEmployee.id}`,formData)
         .then((response)=>{
             setEmpDet(prev=>prev.map(ed=>ed.id===response.data.id?response.data:ed))
         })
         setEditingEmployee(null) }
 
     const handleDelete=(id)=>{
-        axios.delete(`http://localhost:5000/employees/${id}`)
+        axios.delete(`https://simple-employee-management-system-u5c1.onrender.com/employees/${id}`)
         .then(()=>{
             setEmpDet(prev=>prev.filter(d=>d.id!==id))
         })

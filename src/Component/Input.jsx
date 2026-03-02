@@ -1,7 +1,7 @@
 import axios from "axios"
 export default function Input({typingSearch,setTypingSearch,setSearching,setEmpDet}){
   const handleApplliedSearch =()=>{
-    axios.get(`http://localhost:5000/employees?search=${typingSearch}`)
+    axios.get(`https://simple-employee-management-system-u5c1.onrender.com/employees?search=${typingSearch}`)
     .then((response)=>{
       console.log(response.data)
       setEmpDet(response.data)
@@ -11,7 +11,7 @@ export default function Input({typingSearch,setTypingSearch,setSearching,setEmpD
     
   }
   const handleClear=()=>{
-    axios.get('http://localhost:5000/employees')
+    axios.get('https://simple-employee-management-system-u5c1.onrender.com')
     .then((response)=>{
       setEmpDet(response.data)
        setSearching(false)

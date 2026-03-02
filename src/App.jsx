@@ -15,7 +15,7 @@ function App() {
   
    
   useEffect(()=>{
-    axios.get("http://localhost:5000/employees")
+    axios.get("https://simple-employee-management-system-u5c1.onrender.com")
     .then((response)=>{
        console.log("INITIAL FETCH:", response.data)
       setEmpDet(response.data)
