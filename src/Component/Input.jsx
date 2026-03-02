@@ -11,7 +11,7 @@ export default function Input({typingSearch,setTypingSearch,setSearching,setEmpD
     
   }
   const handleClear=()=>{
-    axios.get('https://simple-employee-management-system-u5c1.onrender.com')
+    axios.get('https://simple-employee-management-system-u5c1.onrender.com/employees')
     .then((response)=>{
       setEmpDet(response.data)
        setSearching(false)
