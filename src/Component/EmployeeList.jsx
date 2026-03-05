@@ -18,6 +18,7 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
 
         setActiveFeild({ id: id, feild: "name" })
 
+
     }
     const handleSaveName = () => {
         axios.post("https://simple-employee-management-system-u5c1.onrender.com/employees", { name: newName })
@@ -130,42 +131,42 @@ export default function EmployeeList({ empDet, setEmpDet,searching}) {
                     </thead>
                     <tbody>
                         {empDet.map(item => (
-                            <tr key={item.id}>
-                                <th scope="row">{item.id}</th>
-                                <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name" && activeFeild.id === item.id ? (<>
+                            <tr key={item._id}>
+                                <th scope="row">{item._id}</th>
+                                <td>{item.name ? (<>{item.name}</>) : (<> {activeFeild?.feild === "name" && activeFeild.id === item._id ? (<>
                                     <input value={newName} className="input form-sontrol form-control-sm" onChange={(e) => { setnewName(e.target.value) }} />
-                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveName(item.id) }}>save</button>
+                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveName(item._id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelName}>cancel</button></>)
                                     :
-                                    (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(item.id) }}>Add</button></>)}</>)}</td>
-                                <td>{item.role ? (<>{item.role}</>) : (<> {activeFeild?.feild === "role" && activeFeild.id == item.id ? (<>
+                                    (<><button className="btn btn-sm btn-primary" onClick={() => { handleAddName(item._id) }}>Add</button></>)}</>)}</td>
+                                <td>{item.role ? (<>{item.role}</>) : (<> {activeFeild?.feild === "role" && activeFeild.id == item._id ? (<>
                                     <input value={newRole} className="input form-sontrol form-control-sm" onChange={(e) => { setNewRole(e.target.value) }} />
-                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveRole(item.id) }}>save</button>
+                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveRole(item._id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelRole}>cancel</button></>)
                                     :
-                                    (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddRole(item.id) }}>Add</button></>)}</>)}</td>
-                                <td>{item.salary ? (<>{item.salary}</>) : (<>{activeFeild?.feild === "salary" && activeFeild.id === item.id ? (<>
+                                    (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddRole(item._id) }}>Add</button></>)}</>)}</td>
+                                <td>{item.salary ? (<>{item.salary}</>) : (<>{activeFeild?.feild === "salary" && activeFeild.id === item._id ? (<>
                                     <input value={newSal} onChange={(e) => { setNewSal(e.target.value) }} className="input form-sontrol form-control-sm" />
-                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveSal(item.id) }}>save</button>
+                                    <button className="btn btn-primary btn-sm" onClick={() => { handleSaveSal(item._id) }}>save</button>
                                     <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelSal}>cancel</button>
-                                </>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddSal(item.id) }}>Add</button></>)}</>)}</td>
+                                </>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddSal(item._id) }}>Add</button></>)}</>)}</td>
                                 <td >
-                                    {item.gmail ? (<>{item.gmail}</>) : (<> {activeFeild?.feild === "mail" && activeFeild.id === item.id ?
+                                    {item.gmail ? (<>{item.gmail}</>) : (<> {activeFeild?.feild === "mail" && activeFeild.id === item._id ?
                                         (<> <input value={newMail} onChange={(e) => { setNewMail(e.target.value) }} className="input form-sontrol form-control-sm" />
-                                            <button className="btn btn-primary btn-sm " onClick={() => { handleSaveGmail(item.id) }}>save</button>
-                                            <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelGmail}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddGmail(item.id) }}>Add</button></>)}</>)}
+                                            <button className="btn btn-primary btn-sm " onClick={() => { handleSaveGmail(item._id) }}>save</button>
+                                            <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelGmail}>cancel</button></>) : (<><button className="btn btn-sm btn-primary" disabled={!item.name} onClick={() => { handleAddGmail(item._id) }}>Add</button></>)}</>)}
 
                                 </td>
                                 <td>
-                                    {item.phone ? (<>{item.phone}</>) : (<>{activeFeild?.feild === "phone" && activeFeild.id === item.id ? (<>
+                                    {item.phone ? (<>{item.phone}</>) : (<>{activeFeild?.feild === "phone" && activeFeild.id === item._id ? (<>
                                         <input value={newPhone} onChange={(e) => { setNewPhone(e.target.value) }} className="input form-sontrol form-control-sm" />
-                                        <button className="btn btn-primary btn-sm" onClick={() => { handleSaveCont(item.id) }}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button disabled={!item.name} className="btn btn-sm btn-primary" onClick={() => { handleAddCont(item.id) }}>Add</button></>)} </>)}
+                                        <button className="btn btn-primary btn-sm" onClick={() => { handleSaveCont(item._id) }}>save</button> <button className="btn btn-primary btn-sm mx-1" onClick={handleCancelCont}>cancel</button></>) : (<><button disabled={!item.name} className="btn btn-sm btn-primary" onClick={() => { handleAddCont(item._id) }}>Add</button></>)} </>)}
                                 </td>
                                 <td className="">
                                    <div className="d-flex flex-md-row flex-column gap-3 ">
                                      <button className="btn btn-primary"
                                     onClick={() => { handleUpdate(item) }}>Update</button>
-                                    <button className="btn btn-primary  ms-2"onClick={()=>{handleDelete(item.id)}}>delete</button>
+                                    <button className="btn btn-primary  ms-2"onClick={()=>{handleDelete(item._id)}}>delete</button>
                                    </div>
                                 </td>
                             </tr>
